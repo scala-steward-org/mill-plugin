@@ -107,9 +107,9 @@ object StewardPlugin extends ExternalModule {
   case class Repo(repository: Repository) {
     def isLocal =
       repository match {
-        case repository: IvyRepository   => repository.pattern.string.startsWith("file")
+        case repository: IvyRepository => repository.pattern.string.startsWith("file")
         case repository: MavenRepository => repository.root.startsWith("file")
-        case _                           => true
+        case _ => true
       }
 
     val headerJson: Function1[(String, String), Obj] = { case ((key, value)) =>
