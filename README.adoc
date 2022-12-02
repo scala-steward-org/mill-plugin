@@ -1,0 +1,18 @@
+= mill-scala-steward
+:version: 0.0.0
+:toc:
+:toc-placement: preamble
+
+Mill plugin to export dependency information to be processed by Scala-Steward.
+
+== Usage
+
+[source,bash,subs="attributes,verbatim"]
+----
+$ mill --no-server --disable-ticker --import "ivy:org.scala-steward::scala-steward-mill-plugin::{version}" show org.scalasteward.mill.plugin.StewardPlugin/extractDeps
+----
+
+== License
+
+This project is licensed under Apache License, Verseion 2.0.
+
