@@ -5,6 +5,8 @@
 
 Mill plugin to export dependency information to be processed by Scala-Steward.
 
+See https://github.com/scala-steward-org/scala-steward/issues/2704, for details.
+
 == Usage
 
 [source,bash,subs="attributes,verbatim"]
