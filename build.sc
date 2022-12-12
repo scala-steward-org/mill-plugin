@@ -51,11 +51,11 @@ trait PublishConfig extends PublishModule {
   override def publishVersion: T[String] = VcsVersion.vcsState().format()
   override def pomSettings: T[PomSettings] = PomSettings(
     description = "Mill plugin to generate dependency report to be process by scala-steward",
-    organization = "de.tototec",
-    url = "https://github.com/lefou/mill-scala-steward",
+    organization = "org.scala-steward",
+    url = "https://github.com/scala-steward-org/mill-plugin",
     licenses = Seq(License.`Apache-2.0`),
     versionControl = VersionControl
-      .github(owner = "lefou", repo = "mill-scala-steward"),
+      .github(owner = "scala-steward-org", repo = "mill-plugin"),
     developers =
       Seq(Developer("lefou", "Tobias Roeser", "https://github.com/lefou"))
   )
