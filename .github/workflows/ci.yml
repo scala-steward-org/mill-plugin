@@ -52,7 +52,7 @@ jobs:
         ./mill -i --debug __.test
 
   publish-sonatype:
-    if: github.repository == 'lefou/mill-scala-steward' && contains(github.ref, 'refs/tags/')
+    if: github.repository == 'scala-steward-org/mill-plugin' && contains(github.ref, 'refs/tags/')
     needs: test
     runs-on: ubuntu-latest
     env:
@@ -78,8 +78,8 @@ jobs:
             rm gpg_key
             ./mill -i mill.scalalib.PublishModule/publishAll \
               --publishArtifacts __.publishArtifacts \
-              --sonatypeUri "https://s01.oss.sonatype.org/service/local" \
-              --sonatypeSnapshotUri "https://s01.oss.sonatype.org/content/repositories/snapshots" \
+              --sonatypeUri "https://oss.sonatype.org/service/local" \
+              --sonatypeSnapshotUri "https://oss.sonatype.org/content/repositories/snapshots" \
               --sonatypeCreds $SONATYPE_USER:$SONATYPE_PASSWORD \
               --gpgArgs --passphrase=$PGP_PASSWORD,--no-tty,--pinentry-mode,loopback,--batch,--yes,-a,-b \
               --readTimeout 600000 \
