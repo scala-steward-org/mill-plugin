@@ -22,25 +22,25 @@ trait PlatformConfig {
 object Mill010 extends PlatformConfig {
   override val millVersion = "0.10.0"
   override val millPlatform = "0.10"
-  override val scalaVersion = "2.13.8"
+  override val scalaVersion = "2.13.10"
   override val testWith = Seq("0.10.7", millVersion)
 }
 object Mill09 extends PlatformConfig {
   override val millVersion = "0.9.3"
   override val millPlatform = "0.9"
-  override val scalaVersion = "2.13.8"
+  override val scalaVersion = "2.13.10"
   override val testWith = Seq("0.9.12", millVersion)
 }
 object Mill07 extends PlatformConfig {
   override val millVersion = "0.7.0"
   override val millPlatform = "0.7"
-  override val scalaVersion = "2.13.8"
+  override val scalaVersion = "2.13.10"
   override val testWith = Seq("0.8.0", "0.7.3", millVersion)
 }
 object Mill06 extends PlatformConfig {
   override val millVersion = "0.6.0"
   override val millPlatform = "0.6"
-  override val scalaVersion = "2.12.16"
+  override val scalaVersion = "2.12.17"
   override val testWith = Seq("0.6.3", millVersion)
 }
 
