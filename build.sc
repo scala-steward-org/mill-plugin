@@ -71,8 +71,8 @@ class PluginCross(millPlatform: String)
 
   override def millSourcePath: os.Path = super.millSourcePath / os.up
   override def scalaVersion: T[String] = config.scalaVersion
-  override def artifactName: T[String] = "mill-scala-steward"
-  override def platformSuffix: T[String] = "_mill0.10"
+  override def artifactName: T[String] = "scala-steward-mill-plugin"
+  override def platformSuffix: T[String] = s"_mill${millPlatform}"
   override def artifactId: T[String] =
     artifactName() + platformSuffix() + artifactSuffix()
   override def scalacOptions = Seq("-Ywarn-unused", "-deprecation")
