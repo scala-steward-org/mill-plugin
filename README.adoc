@@ -18,3 +18,9 @@ $ mill --no-server --disable-ticker --import "ivy:org.scala-steward::scala-stewa
 
 This project is licensed under Apache License, Verseion 2.0.
 
+== Changelog
+
+=== 0.17.0 - 2022-12-13
+
+* First release from new standalone repository https://github.com/scala-steward-org/mill-plugin
+* plugin artifacts are now properly cross-published for the following Mill binary platform versions: `0.6`, `0.7` , `0.9` and `0.10`
