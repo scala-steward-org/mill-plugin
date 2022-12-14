@@ -1,5 +1,5 @@
 = mill-scala-steward
-:version: 0.17.0
+:version: 0.17.1
 :toc:
 :toc-placement: preamble
 
@@ -19,6 +19,11 @@ $ mill --no-server --disable-ticker --import "ivy:org.scala-steward::scala-stewa
 This project is licensed under Apache License, Verseion 2.0.
 
 == Changelog
+
+=== 0.17.1 - 2022-12-14
+
+* Take the compile-time and runtime dependencies into account
+* Also report the effective scala-library dependency 
 
 === 0.17.0 - 2022-12-13
 
