@@ -26,7 +26,7 @@ object Mill010 extends PlatformConfig {
   override val testWith = Seq("0.10.7", millVersion)
 }
 object Mill09 extends PlatformConfig {
-  override val millVersion = "0.9.12"
+  override val millVersion = "0.9.3"
   override val millPlatform = "0.9"
   override val scalaVersion = "2.13.10"
   override val testWith = Seq("0.9.12", millVersion)
