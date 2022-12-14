@@ -46,7 +46,7 @@ object StewardPlugin extends ExternalModule {
 
   def toModuleDep(m: JavaModule): Task[ModuleDependencies] = {
 
-    // We also want to use mandatoryIvyDeps, but that`s too new, so we hardcode any scala lib her
+    // We also want to use mandatoryIvyDeps, but that`s too new, so we hardcode any scala lib here
     val mandatoryIvyDeps = m match {
       case s: ScalaModule => s.scalaLibraryIvyDeps
       case _ => T.task { Agg.empty[Dep] }
