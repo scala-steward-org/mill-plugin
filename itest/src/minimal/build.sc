@@ -22,4 +22,5 @@ object other extends ScalaModule {
 def verify(ev: Evaluator) = T.command {
   val str = StewardPlugin.extractDeps(ev)().toString
   assert(str.contains("munit_3"))
+  assert(str.contains("scala-library"))
 }

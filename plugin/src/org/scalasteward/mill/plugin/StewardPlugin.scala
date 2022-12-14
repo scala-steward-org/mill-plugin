@@ -24,6 +24,7 @@ import mill.define.{Discover, ExternalModule}
 import mill.eval.Evaluator
 import mill.scalalib._
 import ujson._
+import mill.define.Task
 
 object StewardPlugin extends ExternalModule {
 
@@ -43,20 +44,36 @@ object StewardPlugin extends ExternalModule {
   def findModules(ev: Evaluator) =
     ev.rootModule.millInternal.modules.collect { case j: JavaModule => j }
 
-  def toModuleDep(m: JavaModule) = {
-    val artifactMods = m match {
-      case scalaMod: ScalaModule =>
-        T.task(
-          Some(
-            (scalaMod.artifactScalaVersion(), scalaMod.scalaVersion(), scalaMod.platformSuffix())
-          )
-        )
-      case _ => T.task(None)
+  def toModuleDep(m: JavaModule): Task[ModuleDependencies] = {
+
+    // We also want to use mandatoryIvyDeps, but that`s too new, so we hardcode any scala lib here
+    val mandatoryIvyDeps = m match {
+      case s: ScalaModule => s.scalaLibraryIvyDeps
+      case _ => T.task { Agg.empty[Dep] }
     }
+
     val dependencies = T.task {
-      val ivy = m.ivyDeps()
-      val mod = artifactMods()
-      ivy.iterator.toSeq.map(Dependency.fromDep(_, mod))
+
+      val convert = m.resolveCoursierDependency()
+
+      val ivy = m.ivyDeps() ++ mandatoryIvyDeps() ++ m.compileIvyDeps() ++ m.runIvyDeps()
+
+      ivy.toSeq.map { dep =>
+        val resolveName = convert(dep).module.name.value
+
+        val artifactId = ArtifactId(
+          dep.dep.module.name.value,
+          if (resolveName != dep.dep.module.name.value)
+            Option(resolveName)
+          else None
+        )
+
+        Dependency(
+          dep.dep.module.organization.value,
+          artifactId,
+          dep.dep.version
+        )
+      }
     }
 
     T.task {
