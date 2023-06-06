@@ -1,4 +1,4 @@
-import $exec.plugins
+import $file.plugins
 import $ivy.`org.scalameta::munit:0.7.29`
 
 import mill._, scalalib._
@@ -9,9 +9,10 @@ import munit.Assertions._
 object minimal extends ScalaModule {
   def scalaVersion = "3.1.3"
 
-  object test extends Tests {
+  object test extends ScalaModuleTests {
     override def ivyDeps = Agg(ivy"org.scalameta::munit:0.7.29")
-    override def testFrameworks: T[Seq[String]] = Seq("munit.Framework")
+    // compatibility with older Mill versions
+    override def testFramework: T[String] = "munit.Framework"
   }
 }
 

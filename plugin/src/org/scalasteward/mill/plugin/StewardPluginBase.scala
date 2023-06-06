@@ -1,35 +1,15 @@
-/*
- * Copyright 2018-2022 Scala Steward contributors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package org.scalasteward.mill.plugin
 
 import coursier.core.{Authentication, Repository}
 import coursier.ivy.IvyRepository
 import coursier.maven.MavenRepository
 import mill._
-import mill.define.{Discover, ExternalModule}
 import mill.eval.Evaluator
 import mill.scalalib._
 import ujson._
 import mill.define.Task
 
-object StewardPlugin extends ExternalModule {
-
-  implicit def millScoptEvaluatorReads[E]: mill.main.EvaluatorScopt[E] =
-    new mill.main.EvaluatorScopt[E]()
+trait StewardPluginBase extends Module {
 
   def extractDeps(ev: Evaluator) = {
     val modules = T.traverse(findModules(ev))(toModuleDep)
@@ -41,6 +21,8 @@ object StewardPlugin extends ExternalModule {
     }
   }
 
+  protected def moduleRepositories(m: JavaModule): Task[Seq[Repository]]
+
   def findModules(ev: Evaluator) =
     ev.rootModule.millInternal.modules.collect { case j: JavaModule => j }
 
@@ -49,7 +31,9 @@ object StewardPlugin extends ExternalModule {
     // We also want to use mandatoryIvyDeps, but that`s too new, so we hardcode any scala lib here
     val mandatoryIvyDeps = m match {
       case s: ScalaModule => s.scalaLibraryIvyDeps
-      case _ => T.task { Agg.empty[Dep] }
+      case _ => T.task {
+          Agg.empty[Dep]
+        }
     }
 
     val dependencies = T.task {
@@ -77,13 +61,11 @@ object StewardPlugin extends ExternalModule {
     }
 
     T.task {
-      val resolvers = m.repositories.map(Repo).filterNot(_.isLocal)
+      val resolvers = moduleRepositories(m)().map(Repo).filterNot(_.isLocal)
       val deps = dependencies()
       ModuleDependencies(m.millModuleSegments.render, resolvers, deps)
     }
   }
-
-  lazy val millDiscover: Discover[StewardPlugin.this.type] = Discover[this.type]
 
   case class ArtifactId(
       name: String,
@@ -129,11 +111,12 @@ object StewardPlugin extends ExternalModule {
         case _ => true
       }
 
-    val headerJson: Function1[(String, String), Obj] = { case ((key, value)) =>
-      Obj(
-        "key" -> key,
-        "value" -> value
-      )
+    val headerJson: Function1[(String, String), Obj] = {
+      case ((key, value)) =>
+        Obj(
+          "key" -> key,
+          "value" -> value
+        )
     }
 
     val authJson = (a: Authentication) =>
