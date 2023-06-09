@@ -21,8 +21,8 @@ trait PlatformConfig {
   def millScalalib = ivy"com.lihaoyi::mill-scalalib:${millVersion}"
 }
 object Mill011 extends PlatformConfig {
-  override val millVersion = "0.11.0-M11"
-  override val millPlatform = "0.11.0-M11"
+  override val millVersion = "0.11.0" // scala-steward:off
+  override val millPlatform = "0.11"
   override val testWith = Seq(millVersion)
 }
 object Mill010 extends PlatformConfig {
