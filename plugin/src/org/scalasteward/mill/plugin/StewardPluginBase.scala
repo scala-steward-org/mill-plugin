@@ -21,6 +21,8 @@ trait StewardPluginBase extends Module {
     }
   }
 
+  protected def plainCoursierDep(module: CoursierModule): Task[Dep => coursier.Dependency]
+
   protected def moduleRepositories(m: JavaModule): Task[Seq[Repository]]
 
   def findModules(ev: Evaluator) =
@@ -38,7 +40,7 @@ trait StewardPluginBase extends Module {
 
     val dependencies = T.task {
 
-      val convert = m.resolveCoursierDependency()
+      val convert = plainCoursierDep(m)()
 
       val ivy = m.ivyDeps() ++ mandatoryIvyDeps() ++ m.compileIvyDeps() ++ m.runIvyDeps()
 

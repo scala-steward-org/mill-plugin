@@ -19,7 +19,7 @@ package org.scalasteward.mill.plugin
 import coursier.core.Repository
 import mill.{Module, T}
 import mill.define.{Discover, ExternalModule, Task}
-import mill.scalalib.JavaModule
+import mill.scalalib.{CoursierModule, Dep, JavaModule}
 
 object StewardPlugin extends ExternalModule with StewardPluginBase {
 
@@ -29,4 +29,8 @@ object StewardPlugin extends ExternalModule with StewardPluginBase {
   lazy val millDiscover: Discover[this.type] = Discover[this.type]
 
   override protected def moduleRepositories(module: JavaModule): Task[Seq[Repository]] = T.task { module.repositories }
+
+  override protected def plainCoursierDep(module: CoursierModule): Task[Dep => coursier.Dependency] =
+    module.resolveCoursierDependency
+
 }
