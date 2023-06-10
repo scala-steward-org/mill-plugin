@@ -64,15 +64,14 @@ trait PublishConfig extends PublishModule {
   )
 }
 
-object plugin extends Cross[PluginCross](platforms.map(_.millPlatform): _*)
-class PluginCross(millPlatform: String)
+object plugin extends Cross[PluginCross](platforms.map(_.millPlatform))
+trait PluginCross
     extends ScalaModule
     with PublishConfig
-    with ScalafmtModule {
-
+    with ScalafmtModule
+    with Cross.Module[String] {
+  val millPlatform = crossValue
   val config: PlatformConfig = platforms.find(_.millPlatform == millPlatform).head
-
-  override def millSourcePath: os.Path = super.millSourcePath / os.up
   override def scalaVersion: T[String] = config.scalaVersion
   override def artifactName: T[String] = "scala-steward-mill-plugin"
   override def platformSuffix: T[String] = s"_mill${millPlatform}"
@@ -85,7 +84,7 @@ class PluginCross(millPlatform: String)
 //  override def sources: Sources = T.sources {
 //    super.sources() ++ Seq(PathRef(millSourcePath / s"src-mill${config.millPlatform}"))
 //  }
-  override def sources: Sources = T.sources {
+  override def sources = T.sources {
     Seq(PathRef(millSourcePath / "src")) ++
       (ZincWorkerUtil.matchingVersions(millPlatform) ++
         ZincWorkerUtil.versionRanges(millPlatform, platforms.map(_.millPlatform)))
@@ -93,9 +92,9 @@ class PluginCross(millPlatform: String)
   }
 }
 
-object itest extends Cross[ItestCross](testVersions: _*)
-class ItestCross(testVersion: String) extends MillIntegrationTestModule {
-  override def millSourcePath: os.Path = super.millSourcePath / os.up
+object itest extends Cross[ItestCross](testVersions)
+trait ItestCross extends MillIntegrationTestModule with Cross.Module[String] {
+  val testVersion = crossValue
   val config: PlatformConfig = platforms.find(_.testWith.contains(testVersion)).head
   override def millTestVersion: T[String] = testVersion
   override def pluginsUnderTest = Seq(plugin(config.millPlatform))
