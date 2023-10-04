@@ -23,7 +23,7 @@ trait PlatformConfig {
 object Mill011 extends PlatformConfig {
   override val millVersion = "0.11.0" // scala-steward:off
   override val millPlatform = "0.11"
-  override val testWith = Seq(millVersion)
+  override val testWith = Seq("0.11.5", millVersion)
 }
 object Mill010 extends PlatformConfig {
   override val millVersion = "0.10.0" // scala-steward:off
