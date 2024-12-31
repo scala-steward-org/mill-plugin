@@ -3,13 +3,13 @@
 :toc:
 :toc-placement: preamble
 
-Mill plugin to export dependency information to be processed by https://github.com/scala-steward-org/scala-steward[Scala-Steward].
+Mill plugin to export dependency information to be processed by https://github.com/scala-steward-org/scala-steward[Scala Steward].
 
 See https://github.com/scala-steward-org/scala-steward/issues/2704 and https://github.com/scala-steward-org/scala-steward/issues/2818 for details.
 
 == Usage
 
-This plugin is typically invoked by Scala-Steward programmatically.
+This plugin is typically invoked by Scala Steward programmatically.
 
 If you want to use it manually, do as follows:
 
