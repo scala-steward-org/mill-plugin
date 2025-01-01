@@ -11,7 +11,7 @@ object minimal extends ScalaModule {
 
   object test extends Tests {
     override def ivyDeps = Agg(ivy"org.scalameta::munit:0.7.29")
-    override def testFrameworks: T[Seq[String]] = T{ Seq("munit.Framework") }
+    override def testFrameworks: T[Seq[String]] = T { Seq("munit.Framework") }
   }
 }
 
