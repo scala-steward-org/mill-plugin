@@ -77,7 +77,14 @@ trait PluginCross
   override def platformSuffix: T[String] = s"_mill${millPlatform}"
   override def artifactId: T[String] =
     artifactName() + platformSuffix() + artifactSuffix()
-  override def scalacOptions = Seq("-Ywarn-unused", "-deprecation")
+  override def scalacOptions = Seq(
+    "-release",
+    "8",
+    "-encoding",
+    "UTF-8",
+    "-Ywarn-unused",
+    "-deprecation"
+  )
   override def compileIvyDeps: T[Agg[Dep]] = super.compileIvyDeps() ++ Agg(
     config.millScalalib
   )
