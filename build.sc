@@ -23,7 +23,7 @@ trait PlatformConfig {
 object Mill011 extends PlatformConfig {
   override val millVersion = "0.11.0" // scala-steward:off
   override val millPlatform = "0.11"
-  override val testWith = Seq("0.11.7", millVersion)
+  override val testWith = Seq("0.12.14", "0.12.0", "0.11.13", millVersion)
 }
 object Mill010 extends PlatformConfig {
   override val millVersion = "0.10.0" // scala-steward:off
@@ -77,7 +77,14 @@ trait PluginCross
   override def platformSuffix: T[String] = s"_mill${millPlatform}"
   override def artifactId: T[String] =
     artifactName() + platformSuffix() + artifactSuffix()
-  override def scalacOptions = Seq("-Ywarn-unused", "-deprecation")
+  override def scalacOptions = Seq(
+    "-release",
+    "8",
+    "-encoding",
+    "UTF-8",
+    "-Ywarn-unused",
+    "-deprecation"
+  )
   override def compileIvyDeps: T[Agg[Dep]] = super.compileIvyDeps() ++ Agg(
     config.millScalalib
   )
