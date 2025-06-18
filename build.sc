@@ -4,9 +4,8 @@ import $ivy.`de.tototec::de.tobiasroeser.mill.vcs.version::0.4.1`
 
 // imports
 import mill._
-import mill.define.Sources
 import mill.scalalib._
-import mill.scalalib.api.ZincWorkerUtil
+import mill.scalalib.api.JvmWorkerUtil
 import mill.scalalib.scalafmt.ScalafmtModule
 import mill.scalalib.publish.{PomSettings, License, VersionControl, Developer}
 import de.tobiasroeser.mill.integrationtest._
@@ -18,7 +17,7 @@ trait PlatformConfig {
   def scalaVersion: String = "2.13.16"
   def testWith: Seq[String]
 
-  def millScalalib = ivy"com.lihaoyi::mill-scalalib:${millVersion}"
+  def millScalalib = mvn"com.lihaoyi::mill-scalalib:${millVersion}"
 }
 object Mill011 extends PlatformConfig {
   override val millVersion = "0.11.0" // scala-steward:off
@@ -91,11 +90,11 @@ trait PluginCross
 //  override def sources: Sources = T.sources {
 //    super.sources() ++ Seq(PathRef(millSourcePath / s"src-mill${config.millPlatform}"))
 //  }
-  override def sources = T.sources {
-    Seq(PathRef(millSourcePath / "src")) ++
-      (ZincWorkerUtil.matchingVersions(millPlatform) ++
-        ZincWorkerUtil.versionRanges(millPlatform, platforms.map(_.millPlatform)))
-        .map(p => PathRef(millSourcePath / s"src-mill${p}"))
+  override def sources = Task.Sources {
+    Seq(PathRef(moduleDir / "src")) ++
+      (JvmWorkerUtil.matchingVersions(millPlatform) ++
+        JvmWorkerUtil.versionRanges(millPlatform, platforms.map(_.millPlatform)))
+        .map(p => PathRef(moduleDir / s"src-mill${p}"))
   }
 }
 
@@ -105,14 +104,14 @@ trait ItestCross extends MillIntegrationTestModule with Cross.Module[String] {
   val config: PlatformConfig = platforms.find(_.testWith.contains(testVersion)).head
   override def millTestVersion: T[String] = testVersion
   override def pluginsUnderTest = Seq(plugin(config.millPlatform))
-  def sources = T.sources {
+  def sources = Task.Sources {
     super.sources() ++
-      (ZincWorkerUtil.matchingVersions(config.millPlatform) ++
-        ZincWorkerUtil.versionRanges(config.millPlatform, platforms.map(_.millPlatform)))
-        .map(p => PathRef(millSourcePath / s"src-mill${p}"))
+      (JvmWorkerUtil.matchingVersions(config.millPlatform) ++
+        JvmWorkerUtil.versionRanges(config.millPlatform, platforms.map(_.millPlatform)))
+        .map(p => PathRef(moduleDir / s"src-mill${p}"))
   }
-  val testBase = millSourcePath / "src"
-  override def testInvocations: T[Seq[(PathRef, Seq[TestInvocation.Targets])]] = T {
+  val testBase = moduleDir / "src"
+  override def testInvocations: T[Seq[(PathRef, Seq[TestInvocation.Targets])]] = Task {
     testCases().map { pathRef =>
       pathRef -> Seq(
         TestInvocation.Targets(Seq("verify"), noServer = true)

@@ -49,7 +49,7 @@ jobs:
 
     - name: Test
       run:
-        ./mill -i --debug __.test
+        ./mill -i -j1 --debug __.test
 
   publish-sonatype:
     if: github.repository == 'scala-steward-org/mill-plugin' && contains(github.ref, 'refs/tags/')
