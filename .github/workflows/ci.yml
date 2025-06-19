@@ -18,44 +18,44 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
-    - uses: coursier/cache-action@v6
-    - uses: actions/setup-java@v4
-      with:
-        distribution: 'temurin'
-        java-version: '17'
+      - uses: actions/checkout@v4
+      - uses: coursier/cache-action@v6
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
 
-    - name: Check formatting
-      run: 
-        ./mill -i __.checkFormat
+      - name: Check formatting
+        run:
+          ./mill -i __.checkFormat
 
   test:
     runs-on: 'ubuntu-latest'
     strategy:
       fail-fast: false
       matrix:
-        java: ['11', '17']
+        java: [ '11', '17' ]
 
     steps:
-    - uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-    - uses: coursier/cache-action@v6
+      - uses: coursier/cache-action@v6
 
-    - uses: actions/setup-java@v4
-      with:
-        distribution: 'temurin'
-        java-version: ${{ matrix.java }}
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: ${{ matrix.java }}
 
-    - name: Compile
-      run:
-        ./mill -i __.compile
+      - name: Compile
+        run:
+          ./mill -i __.compile
 
-    - name: Test
-      run:
-        # The -j1 is to workaround concurrency issues in older Mill version (0.8.0) when itest-ing
-        ./mill --no-server -j1 --debug __.test
+      - name: Test
+        run:
+          # The -j1 is to workaround concurrency issues in older Mill version (0.8.0) when itest-ing
+          ./mill --no-server -j1 --debug __.test
 
   publish-sonatype:
     if: github.repository == 'scala-steward-org/mill-plugin' && contains(github.ref, 'refs/tags/')
@@ -68,7 +68,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
       - uses: coursier/cache-action@v6
+
       - uses: actions/setup-java@v4
         with:
           distribution: 'temurin'

@@ -1,5 +1,5 @@
 = mill-scala-steward
-:version: 0.18.0
+:version: 0.18.1
 :toc:
 :toc-placement: preamble
 
@@ -20,7 +20,7 @@ $ mill --no-server --disable-ticker --import "ivy:org.scala-steward::scala-stewa
 
 == Supported Mill Versions
 
-This plugin supports all Mill major versions from `0.6.x` to `0.11.x`, including minor releases.
+This plugin supports all Mill major versions from `0.6.x` to `0.12.x`, including minor releases.
 
 Projects using Mill milestone releases (e.g. `0.11.0-M7`) won't be supported, due to the unstable nature of the Mill API in milestone releases.
 
@@ -33,6 +33,12 @@ Please note, that snapshot releases in general come without any compatibility gu
 This project is licensed under Apache License, Version 2.0.
 
 == Changelog
+
+=== 0.18.1 - 2025-06-19
+
+* Upgrade build tooling and publishing setup
+* Added integration tests for Mill `0.12` support
+* Updated dependencies
 
 === 0.18.0 - 2023-06-09
 
