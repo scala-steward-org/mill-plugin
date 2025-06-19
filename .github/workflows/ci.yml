@@ -16,6 +16,7 @@ env:
 jobs:
   style-check:
     runs-on: ubuntu-latest
+
     steps:
     - uses: actions/checkout@v4
     - uses: coursier/cache-action@v6
@@ -37,7 +38,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
     - uses: coursier/cache-action@v6
+
     - uses: actions/setup-java@v4
       with:
         distribution: 'temurin'
@@ -49,20 +54,18 @@ jobs:
 
     - name: Test
       run:
-        ./mill -i -j1 --debug __.test
+        # The -j1 is to workaround concurrency issues in older Mill version (0.8.0) when itest-ing
+        ./mill --no-server -j1 --debug __.test
 
   publish-sonatype:
     if: github.repository == 'scala-steward-org/mill-plugin' && contains(github.ref, 'refs/tags/')
     needs: test
     runs-on: ubuntu-latest
     env:
-      PGP_PRIVATE_KEY: ${{ secrets.PGP_PRIVATE_KEY }}
-      PGP_PASSWORD: ${{ secrets.PGP_PASSWORD }}
-      SONATYPE_USER: ${{ secrets.SONATYPE_USER }}
-      SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
       LANG: "en_US.UTF-8"
       LC_MESSAGES: "en_US.UTF-8"
       LC_ALL: "en_US.UTF-8"
+
     steps:
       - uses: actions/checkout@v4
       - uses: coursier/cache-action@v6
@@ -70,20 +73,24 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '11'
-      - name: Publish to Maven Central
+
+      - name: Setup GPG secrets for publish
         run: |
           if [[ $(git tag --points-at HEAD) != '' ]]; then
             echo $PGP_PRIVATE_KEY | base64 --decode > gpg_key
             gpg --import --no-tty --batch --yes gpg_key
             rm gpg_key
-            ./mill -i mill.scalalib.PublishModule/publishAll \
-              --publishArtifacts __.publishArtifacts \
-              --sonatypeUri "https://oss.sonatype.org/service/local" \
-              --sonatypeSnapshotUri "https://oss.sonatype.org/content/repositories/snapshots" \
-              --sonatypeCreds $SONATYPE_USER:$SONATYPE_PASSWORD \
-              --gpgArgs --passphrase=$PGP_PASSWORD,--no-tty,--pinentry-mode,loopback,--batch,--yes,-a,-b \
-              --readTimeout 600000 \
-              --awaitTimeout 600000 \
-              --release true \
-              --signed true
           fi
+        env:
+          PGP_PRIVATE_KEY: ${{ secrets.PGP_PRIVATE_KEY }}
+
+      - name: Publish to Maven Central
+        run: |
+          ./mill --no-server \
+            --import "ivy:com.lihaoyi::mill-contrib-sonatypecentral:" \
+            mill.contrib.sonatypecentral.SonatypeCentralPublishModule/publishAll \
+           --publishArtifacts __.publishArtifacts
+        env:
+          MILL_PGP_PASSPHRASE: ${{ secrets.PGP_PASSWORD }}
+          MILL_SONATYPE_USERNAME: ${{ secrets.SONATYPE_USER }}
+          MILL_SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
