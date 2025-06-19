@@ -52,13 +52,13 @@ jobs:
         run:
           ./mill --no-server __.compile
 
+      - name: Package
+        run: ./mill --no-server show __.publishArtifacts
+
       - name: Test
         run:
           # The -j1 is to workaround concurrency issues in older Mill version (0.8.0) when itest-ing
           ./mill --no-server -j1 --debug __.test
-
-      - name: Package
-        run: ./mill --no-server show __.publishArtifacts
 
   publish-sonatype:
     if: github.repository == 'scala-steward-org/mill-plugin' && contains(github.ref, 'refs/tags/')
