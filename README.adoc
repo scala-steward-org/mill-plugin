@@ -1,5 +1,5 @@
 = mill-scala-steward
-:version: 0.18.1
+:version: 0.18.2
 :toc:
 :toc-placement: preamble
 
@@ -33,6 +33,10 @@ Please note, that snapshot releases in general come without any compatibility gu
 This project is licensed under Apache License, Version 2.0.
 
 == Changelog
+
+=== 0.18.2 - 2025-06-19
+
+* Fix incorrect artifact IDs
 
 === 0.18.1 - 2025-06-19
 
