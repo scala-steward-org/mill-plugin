@@ -74,8 +74,6 @@ trait PluginCross
   override def scalaVersion: T[String] = config.scalaVersion
   override def artifactName: T[String] = "scala-steward-mill-plugin"
   override def platformSuffix: T[String] = s"_mill${millPlatform}"
-  override def artifactId: T[String] =
-    artifactName() + platformSuffix() + artifactSuffix()
   override def scalacOptions = Seq(
     "-release",
     "8",
