@@ -50,7 +50,10 @@ jobs:
 
       - name: Compile
         run:
-          ./mill -i __.compile
+          ./mill --no-server __.compile
+
+      - name: Package
+        run: ./mill --no-server show __.publishArtifacts
 
       - name: Test
         run:
