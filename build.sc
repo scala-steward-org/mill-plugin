@@ -3,6 +3,7 @@ import $ivy.`de.tototec::de.tobiasroeser.mill.integrationtest::0.7.3`
 import $ivy.`de.tototec::de.tobiasroeser.mill.vcs.version::0.4.1`
 
 import mill._
+import mill.define.DynamicModule
 import mill.scalalib._
 import mill.scalalib.api.JvmWorkerUtil
 import mill.scalalib.scalafmt.ScalafmtModule
@@ -81,6 +82,7 @@ trait PluginCross
     extends ScalaModule
     with PublishConfig
     with ScalafmtModule
+    with DynamicModule
     with Cross.Module[String] {
   val millPlatform = crossValue
   val config: PlatformConfig = platforms.find(_.millPlatform == millPlatform).head
@@ -106,6 +108,19 @@ trait PluginCross
       (JvmWorkerUtil.matchingVersions(millPlatform) ++
         JvmWorkerUtil.versionRanges(millPlatform, platforms.map(_.millPlatform)))
         .map(p => PathRef(moduleDir / s"src-mill${p}"))
+  }
+
+  def millModuleDirectChildren = super.millModuleDirectChildren
+    .filterNot(m =>
+      // Ignore test module for mill older than 1
+      config.millPlatform != "1" && m == test
+    )
+  object test extends ScalaTests with TestModule.Munit {
+    def ivyDeps = super.ivyDeps() ++ Seq(
+      mvn"com.lihaoyi::mill-testkit:${config.millVersion}",
+      mvn"com.lihaoyi::mill-libs-scalalib:${config.millVersion}",
+      mvn"org.scalameta::munit:1.2.0"
+    )
   }
 }
 
