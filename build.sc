@@ -111,10 +111,11 @@ trait PluginCross
   }
 
   def millModuleDirectChildren = super.millModuleDirectChildren
-    .filterNot(m =>
+    .filterNot{ m =>
+      val major = config.millPlatform.split('.').head.toInt
       // Ignore test module for mill older than 1
-      config.millPlatform != "1" && m == test
-    )
+      major < 1 && m == test
+    }
   object test extends ScalaTests with TestModule.Munit {
     def ivyDeps = super.ivyDeps() ++ Seq(
       mvn"com.lihaoyi::mill-testkit:${config.millVersion}",
