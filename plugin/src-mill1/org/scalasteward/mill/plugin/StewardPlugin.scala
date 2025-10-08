@@ -167,6 +167,6 @@ object StewardPlugin extends ExternalModule {
       bind(dep).dep
     }
 
-  lazy val millDiscover = Discover[this.type]
+  override protected lazy val millDiscover = Discover[this.type]
 
 }
