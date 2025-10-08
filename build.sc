@@ -119,7 +119,7 @@ trait PluginCross
   object test extends ScalaTests with TestModule.Munit {
     def ivyDeps = super.ivyDeps() ++ Seq(
       mvn"com.lihaoyi::mill-testkit:${config.millVersion}",
-      mvn"com.lihaoyi::mill-libs-scalalib:${config.millVersion}",
+      config.millLibs,
       mvn"org.scalameta::munit:1.2.0"
     )
   }
