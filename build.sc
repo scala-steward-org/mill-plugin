@@ -120,7 +120,7 @@ trait PluginCross
     def ivyDeps = super.ivyDeps() ++ Seq(
       mvn"com.lihaoyi::mill-testkit:${config.millVersion}",
       config.millLibs,
-      mvn"org.scalameta::munit:1.2.0"
+      mvn"org.scalameta::munit:1.2.1"
     )
   }
 }
