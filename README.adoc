@@ -1,5 +1,5 @@
 = mill-scala-steward
-:version: 0.18.2
+:version: 0.19.0
 :toc:
 :toc-placement: preamble
 
@@ -13,6 +13,13 @@ This plugin is typically invoked by Scala Steward programmatically.
 
 If you want to use it manually, do as follows:
 
+.Run with Mill 1.x
+[source,bash,subs="attributes,verbatim"]
+----
+$ mill --no-server --ticker false --import "mvn:org.scala-steward::scala-steward-mill-plugin::{version}" show org.scalasteward.mill.plugin.StewardPlugin/extractDeps
+----
+
+.Run with Mill 0.x
 [source,bash,subs="attributes,verbatim"]
 ----
 $ mill --no-server --disable-ticker --import "ivy:org.scala-steward::scala-steward-mill-plugin::{version}" show org.scalasteward.mill.plugin.StewardPlugin/extractDeps
@@ -20,7 +27,7 @@ $ mill --no-server --disable-ticker --import "ivy:org.scala-steward::scala-stewa
 
 == Supported Mill Versions
 
-This plugin supports all Mill major versions from `0.6.x` to `0.12.x`, including minor releases.
+This plugin supports all Mill major versions from `0.6.x` to `1.x`, including minor releases.
 
 Projects using Mill milestone releases (e.g. `0.11.0-M7`) won't be supported, due to the unstable nature of the Mill API in milestone releases.
 
@@ -33,6 +40,10 @@ Please note, that snapshot releases in general come without any compatibility gu
 This project is licensed under Apache License, Version 2.0.
 
 == Changelog
+
+=== 0.19.0 - 2025-10-12
+
+* Added Support for Mill 1
 
 === 0.18.2 - 2025-06-19
 
