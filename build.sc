@@ -27,28 +27,28 @@ object Mill1 extends PlatformConfig {
 object Mill011 extends PlatformConfig {
   override val millVersion = "0.11.0" // scala-steward:off
   override val millPlatform = "0.11"
-  override val scalaVersion = "2.13.17"
+  override val scalaVersion = "2.13.18"
   override val millLibs = mvn"com.lihaoyi::mill-scalalib:${millVersion}"
   override val testWith = Seq("0.12.14", "0.12.0", "0.11.13", millVersion)
 }
 object Mill010 extends PlatformConfig {
   override val millVersion = "0.10.0" // scala-steward:off
   override val millPlatform = "0.10"
-  override val scalaVersion = "2.13.17"
+  override val scalaVersion = "2.13.18"
   override val millLibs = mvn"com.lihaoyi::mill-scalalib:${millVersion}"
   override val testWith = Seq("0.10.15", millVersion)
 }
 object Mill09 extends PlatformConfig {
   override val millVersion = "0.9.3" // scala-steward:off
   override val millPlatform = "0.9"
-  override val scalaVersion = "2.13.17"
+  override val scalaVersion = "2.13.18"
   override val millLibs = mvn"com.lihaoyi::mill-scalalib:${millVersion}"
   override val testWith = Seq("0.9.12", millVersion)
 }
 object Mill07 extends PlatformConfig {
   override val millVersion = "0.7.0" // scala-steward:off
   override val millPlatform = "0.7"
-  override val scalaVersion = "2.13.17"
+  override val scalaVersion = "2.13.18"
   override val millLibs = mvn"com.lihaoyi::mill-scalalib:${millVersion}"
   override val testWith = Seq("0.8.0", "0.7.4", millVersion)
 }
