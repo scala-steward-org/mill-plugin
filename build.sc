@@ -55,7 +55,7 @@ object Mill07 extends PlatformConfig {
 object Mill06 extends PlatformConfig {
   override val millVersion = "0.6.0" // scala-steward:off
   override val millPlatform = "0.6"
-  override val scalaVersion = "2.12.20"
+  override val scalaVersion = "2.12.21"
   override val millLibs = mvn"com.lihaoyi::mill-scalalib:${millVersion}"
   override val testWith = Seq("0.6.3", millVersion)
 }
