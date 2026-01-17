@@ -134,23 +134,27 @@ trait StewardPluginBase extends Module {
           Obj(
             "url" -> Str(m.root),
             "type" -> Str("maven"),
-            "auth" -> m.authentication
-              .map(authJson)
-              .getOrElse(Null),
-            "headers" -> m.authentication
-              .map(headers => Arr(headers.httpHeaders.map(headerJson)))
-              .getOrElse(Null)
+            "auth" ->
+              m.authentication
+                .map(authJson)
+                .getOrElse(Null),
+            "headers" ->
+              m.authentication
+                .map(headers => Arr(headers.httpHeaders.map(headerJson)))
+                .getOrElse(Null)
           )
         case ivy: IvyRepository =>
           Obj(
             "pattern" -> Str(ivy.pattern.string),
             "type" -> Str("ivy"),
-            "auth" -> ivy.authentication
-              .map(authJson)
-              .getOrElse(Null),
-            "headers" -> ivy.authentication
-              .map(headers => Arr(headers.httpHeaders.map(headerJson)))
-              .getOrElse(Null)
+            "auth" ->
+              ivy.authentication
+                .map(authJson)
+                .getOrElse(Null),
+            "headers" ->
+              ivy.authentication
+                .map(headers => Arr(headers.httpHeaders.map(headerJson)))
+                .getOrElse(Null)
           )
         case _ => Null
       }
