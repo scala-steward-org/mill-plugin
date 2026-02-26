@@ -14,7 +14,7 @@ import de.tobiasroeser.mill.vcs.version.VcsVersion
 trait PlatformConfig {
   def millVersion: String
   def millPlatform: String
-  def scalaVersion: String = "3.7.4"
+  def scalaVersion: String = "3.8.2"
   def testWith: Seq[String]
 
   def millLibs = mvn"com.lihaoyi::mill-libs:${millVersion}"
