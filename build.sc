@@ -66,7 +66,7 @@ val testVersions = platforms.tail.flatMap(p => p.testWith)
 trait PublishConfig extends PublishModule {
   override def publishVersion: T[String] = VcsVersion.vcsState().format()
   override def pomSettings: T[PomSettings] = PomSettings(
-    description = "Mill plugin to generate dependency report to be process by scala-steward",
+    description = "Mill plugin to generate dependency reports to be processed by scala-steward",
     organization = "org.scala-steward",
     url = "https://github.com/scala-steward-org/mill-plugin",
     licenses = Seq(License.`Apache-2.0`),

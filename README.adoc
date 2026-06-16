@@ -1,5 +1,5 @@
 = mill-scala-steward
-:version: 0.19.0
+:version: 0.19.1
 :toc:
 :toc-placement: preamble
 
@@ -14,15 +14,15 @@ This plugin is typically invoked by Scala Steward programmatically.
 If you want to use it manually, do as follows:
 
 .Run with Mill 1.x
-[source,bash,subs="attributes,verbatim"]
+[,console,subs="attributes"]
 ----
-$ mill --no-server --ticker false --import "mvn:org.scala-steward::scala-steward-mill-plugin::{version}" show org.scalasteward.mill.plugin.StewardPlugin/extractDeps
+> mill --no-server --ticker false --import "mvn:org.scala-steward::scala-steward-mill-plugin::{version}" show org.scalasteward.mill.plugin.StewardPlugin/extractDeps
 ----
 
 .Run with Mill 0.x
-[source,bash,subs="attributes,verbatim"]
+[,console,subs="attributes"]
 ----
-$ mill --no-server --disable-ticker --import "ivy:org.scala-steward::scala-steward-mill-plugin::{version}" show org.scalasteward.mill.plugin.StewardPlugin/extractDeps
+> mill --no-server --disable-ticker --import "ivy:org.scala-steward::scala-steward-mill-plugin::{version}" show org.scalasteward.mill.plugin.StewardPlugin/extractDeps
 ----
 
 == Supported Mill Versions
@@ -40,6 +40,12 @@ Please note, that snapshot releases in general come without any compatibility gu
 This project is licensed under Apache License, Version 2.0.
 
 == Changelog
+
+=== 0.19.1 - 2026-06-16
+
+* Fix Fix malformed JSON headers encoding
+* Fix deprecated API use
+* Update internal dependencies
 
 === 0.19.0 - 2025-10-12
 
