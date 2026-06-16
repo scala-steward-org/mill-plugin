@@ -140,7 +140,7 @@ trait StewardPluginBase extends Module {
                 .getOrElse(Null),
             "headers" ->
               m.authentication
-                .map(headers => Arr(headers.httpHeaders.map(headerJson)))
+                .map(headers => Arr.from(headers.httpHeaders.map(headerJson)))
                 .getOrElse(Null)
           )
         case ivy: IvyRepository =>
@@ -153,7 +153,7 @@ trait StewardPluginBase extends Module {
                 .getOrElse(Null),
             "headers" ->
               ivy.authentication
-                .map(headers => Arr(headers.httpHeaders.map(headerJson)))
+                .map(headers => Arr.from(headers.httpHeaders.map(headerJson)))
                 .getOrElse(Null)
           )
         case _ => Null
