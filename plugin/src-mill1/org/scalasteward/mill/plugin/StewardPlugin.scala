@@ -49,13 +49,13 @@ object StewardPlugin extends ExternalModule {
         Dependency(
           dep.dep.module.organization.value,
           artifactId,
-          dep.dep.version
+          dep.version
         )
       }
     }
 
     Task.Anon {
-      val resolvers = m.repositoriesTask().map(Repo).filterNot(_.isLocal)
+      val resolvers = m.repositoriesTask().map(Repo.apply).filterNot(_.isLocal)
       val deps = dependencies()
       ModuleDependencies(m.moduleSegments.render, resolvers, deps)
     }
@@ -68,7 +68,7 @@ object StewardPlugin extends ExternalModule {
     def toJson =
       Obj(
         "name" -> Str(name),
-        "maybeCrossName" -> maybeCrossName.map(Str).getOrElse(Null)
+        "maybeCrossName" -> maybeCrossName.map(Str.apply).getOrElse(Null)
       )
   }
 
@@ -93,7 +93,7 @@ object StewardPlugin extends ExternalModule {
           dep.artifactName(binary, full, platform)
         }
       )
-      Dependency(dep.dep.module.organization.value, artifactId, dep.dep.version)
+      Dependency(dep.organization, artifactId, dep.version)
     }
   }
 
@@ -115,9 +115,9 @@ object StewardPlugin extends ExternalModule {
 
     val authJson = (a: Authentication) =>
       Obj(
-        "user" -> Str(a.user),
-        "pass" -> a.passwordOpt.map(Str).getOrElse(Null),
-        "realm" -> a.realmOpt.map(Str).getOrElse(Null)
+        "user" -> a.userOpt.map(Str.apply).getOrElse(Null),
+        "pass" -> a.passwordOpt.map(Str.apply).getOrElse(Null),
+        "realm" -> a.realmOpt.map(Str.apply).getOrElse(Null)
       )
 
     def toJson =
