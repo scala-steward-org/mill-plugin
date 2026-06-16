@@ -44,7 +44,7 @@ trait StewardPluginBase extends Module {
 
       val ivy = m.ivyDeps() ++ mandatoryIvyDeps() ++ m.compileIvyDeps() ++ m.runIvyDeps()
 
-      ivy.toSeq.map { dep =>
+      ivy.iterator.toSeq.map { dep =>
         val resolveName = convert(dep).module.name.value
 
         val artifactId = ArtifactId(

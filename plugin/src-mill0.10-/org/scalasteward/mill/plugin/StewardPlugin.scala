@@ -17,7 +17,7 @@
 package org.scalasteward.mill.plugin
 
 import coursier.core.Repository
-import mill.{Module, T}
+import mill.T
 import mill.define.{Discover, ExternalModule, Task}
 import mill.scalalib.{CoursierModule, Dep, JavaModule}
 
