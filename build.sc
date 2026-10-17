@@ -14,7 +14,7 @@ import de.tobiasroeser.mill.vcs.version.VcsVersion
 trait PlatformConfig {
   def millVersion: String
   def millPlatform: String
-  def scalaVersion: String = "3.7.4"
+  def scalaVersion: String
   def testWith: Seq[String]
 
   def millLibs = mvn"com.lihaoyi::mill-libs:${millVersion}"
@@ -22,6 +22,7 @@ trait PlatformConfig {
 object Mill1 extends PlatformConfig {
   override val millVersion = "1.0.0" // scala-steward:off
   override val millPlatform = "1"
+  override val scalaVersion = "3.7.4" // scala-steward:off
   override val testWith = Seq("1.0.5", millVersion)
 }
 object Mill011 extends PlatformConfig {
